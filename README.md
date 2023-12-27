@@ -5,7 +5,7 @@ Azure Automation is a service that allows you to automate tasks in Azure. Azure 
 
 A Hybrid Worker is a virtual machine that is deployed in your Azure subscription. The Hybrid Worker is registered with the Azure Automation service. 
 
-This demo shows how to deploy a disposalable Hybrid Workers using Terraform and Packer without any interaction with the actual virtual machines.  All software is installed via [Cloud Init](./runners/cloud-init.txt) and the Hybrid Workers are registered with the Azure Automation service using the Azure Automation VM Extension.  The machines are also registered with Azure Update Manager for patching.  
+This demo shows how to deploy a disposalable Hybrid Workers using Terraform and Packer without any interaction with the actual virtual machines.  All software is installed via [Cloud Init](./infrastructure/runners/cloud-init.txt) and the Hybrid Workers are registered with the Azure Automation service using the Azure Automation VM Extension.  The machines are also registered with Azure Update Manager for patching.  
 
 The machines are assigned an Identity and a role assignment is created to allow the Hybrid Worker to access Azure resources. The machines are given unique id and are deployed in a separate resource group based on another random id.
 
