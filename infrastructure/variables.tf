@@ -1,4 +1,5 @@
 variable "region" {
-  description = "Region to deploy resources to"
-  default     =  "southcentralus"
+  description = "The Azure region to deploy to"
+  type        = string
+  default     = "southcentralus"
 }
