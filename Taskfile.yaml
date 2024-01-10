@@ -2,14 +2,14 @@ version: '3'
 
 env:
   VM_COUNT: 2
-  SHARED_IMAGE_GALLERY_NAME: '{{REPLACE_ME}}'
-  SHARED_IMAGE_NAME: '{{REPLACE_ME}}'
+  SHARED_IMAGE_GALLERY_NAME: 'REPLACE_ME'
+  SHARED_IMAGE_NAME: 'REPLACE_ME'
 
 tasks:
   up:
     desc: Creates a complete Azure environment 
     cmds:
-    - terraform -chdir=./infrastructureworkspace new {{.REGION}} || true
+    - terraform -chdir=./infrastructure workspace new {{.REGION}} || true
     - terraform -chdir=./infrastructure workspace select {{.REGION}}
     - terraform -chdir=./infrastructure init
     - terraform -chdir=./infrastructure apply -auto-approve -var "region={{.REGION}}" -compact-warnings
@@ -48,7 +48,7 @@ tasks:
   down:
     desc: Destroys all Azure resources and cleans up Terraform
     cmds:
-    - az group list --tag Application="Hybrid Worker Automation Runners" --query "[].name" -o tsv | xargs -ot -n 1 az group delete -y --verbose -n
-    - az group list --tag Application="Hybrid Worker Automation Demo" --query "[].name" -o tsv | xargs -ot -n 1 az group delete -y --verbose -n
+    - az group list --tag Application="Hybrid Worker Automation Runners" --query "[].name" -o tsv | xargs -ot -n 1 az group delete -y --no-wait --verbose -n
+    - az group list --tag Application="Hybrid Worker Automation Demo" --query "[].name" -o tsv | xargs -ot -n 1 az group delete -y --no-wait --verbose -n
     - cd ./infrastructure/runners; rm -rf terraform.tfstate.d .terraform.lock.hcl .terraform terraform.tfstate terraform.tfstate.backup .terraform.tfstate.lock.info
     - cd ./infrastructure; rm -rf terraform.tfstate.d .terraform.lock.hcl .terraform terraform.tfstate terraform.tfstate.backup .terraform.tfstate.lock.info
