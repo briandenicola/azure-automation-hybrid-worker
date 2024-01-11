@@ -43,7 +43,7 @@ tasks:
     vars: 
       APP_NAME: '{{default .CLI_ARGS}}'
       BUILD_VERSION:
-        sh: date +"%U"
+        sh: date +"%y.%U"
 
   down:
     desc: Destroys all Azure resources and cleans up Terraform

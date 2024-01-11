@@ -62,8 +62,8 @@ variable "build_version" {
 }
 
 locals {
-  shared_image_version  = "1.0.${var.build_version}"
-  template_name         = "myazure.linux.${var.build_version}"
+  shared_image_version  = "1.${var.build_version}"
+  template_name         = "${var.shared_image_name}.${var.build_version}"
   end_of_life           = timeadd(timestamp(), "336h")
 }
 
