@@ -2,8 +2,8 @@ version: '3'
 
 env:
   VM_COUNT: 2
-  SHARED_IMAGE_GALLERY_NAME: 'REPLACE_ME'
-  SHARED_IMAGE_NAME: 'REPLACE_ME'
+  SHARED_IMAGE_GALLERY_NAME: 'bjdsharedgallery'
+  SHARED_IMAGE_NAME: 'bjdazure.linux'
 
 tasks:
   up:
@@ -39,7 +39,7 @@ tasks:
     dir: ./infrastructure/packer
     cmds:
     - packer init ./azure_linux.pkr.hcl
-    - packer build -var "build_version={{.BUILD_VERSION}}" -var "shared_image_gallery_name={{.SHARED_IMAGE_GALLERY_NAME}}" -var "shared_image_name={{.SHARED_IMAGE_NAME}}".
+    - packer build -var "build_version={{.BUILD_VERSION}}" -var "shared_image_gallery_name={{.SHARED_IMAGE_GALLERY_NAME}}" -var "shared_image_name={{.SHARED_IMAGE_NAME}}" .
     vars: 
       APP_NAME: '{{default .CLI_ARGS}}'
       BUILD_VERSION:
