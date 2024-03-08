@@ -35,10 +35,21 @@ Azure Virtual Network | Virtual Network for Hybrid Workers
 Azure Shared Image Gallery | Golden Image for Hybrid Workers
 Azure Update Management | Patching for Hybrid Workers
 
-## Pros and Cons
+## Pros and Cons of Hybrid Worker vs Other Job Schedulers in Azure
+Pros   | Cons
+------ | ------
+Azure Automation can run any existing Python or PowerShell Script without (any?) customizatoins | Machines still must be managed and patched.  Azure Update Manager can assist and does not require interactive login to the machine.
+Extension based automically updates when new versions are released | VM based model does not automatically scale out.  Requires an execution of the Terraform command to create additional workers.
+Azure Automation provides a built in Python and PowerShell module repository | Azure Container Apps Jobs require each job/script to provide all dependencies in the container image. 
+Does not execute Containres easily | Azure Container Apps Jobs executes containers automatically and can scale out using event triggers.
+Azure Automation integrated with Azure Monitor and Log Analytics | Azure Container Apps Jobs integrated with Azure Monitor and Log Analytics |
+Azure Automation schedules jobs by Cron syntax | Azure Container Apps Jobs schedules jobs by Cron syntax 
+Azure Automation has extensive logging and auditing | Azure Container Apps Jobs has some degreee of logging and auditing
 
-## Architecture
+# Architecture
+
+## Examlple Setup
+* The following is a example of [deployment](./docs/setup.md) using [Task](https://taskfile.dev/#/installation) and [Terraform](https://www.terraform.io/downloads.html).
+
 ![Architecture](.assets/architecture.png =1024x)
 
-## Setup
-* The following is a example of [deployment](./docs/setup.md) using [Task](https://taskfile.dev/#/installation) and [Terraform](https://www.terraform.io/downloads.html).
