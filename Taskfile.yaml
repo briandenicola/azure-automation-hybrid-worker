@@ -23,6 +23,7 @@ tasks:
     - terraform -chdir=./infrastructure/runners workspace select {{.NEW_WORKSPACE_NAME}}
     - terraform -chdir=./infrastructure/runners init
     - terraform -chdir=./infrastructure/runners apply -auto-approve -var "app_name={{.APP_NAME}}" -var "number_of_runners={{.VM_COUNT}}" -var "automation_account_url={{.AUTOMATION_ACCOUNT_URL}}" -compact-warnings
+    - terraform -chdir=./infrastructure/runners state rm tls_private_key.rsa
     - terraform -chdir=./infrastructure/runners workspace select {{.OLD_WORKSPACE_NAME}} 
     - terraform -chdir=./infrastructure/runners destroy -auto-approve -var "app_name={{.APP_NAME}}" -var "number_of_runners={{.VM_COUNT}}" -var "automation_account_url={{.AUTOMATION_ACCOUNT_URL}}" -compact-warnings 
     vars: 
