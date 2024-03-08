@@ -5,24 +5,24 @@ Azure Automation is a service that allows you to automate tasks in Azure. Azure 
 
 * A Hybrid Worker is a virtual machine that is deployed in your Azure subscription. The Hybrid Worker is registered with the Azure Automation service. 
 
-* This demo shows how to deploy a disposalable Hybrid Workers using Terraform and Packer without any interaction with the actual virtual machines.  All software is installed via Packer in a Golden Image or via [Cloud Init](./infrastructure/runners/cloud-init.txt).
+* This demo shows how to deploy a disposalable Hybrid Workers using Terraform and Packer without any interaction with the actual virtual machines.  All software is installed via [Packer](./infrastructure/packer/azure_linux.pkr.hcl) into a Golden Image or on after creation with [Cloud Init](./infrastructure/runners/cloud-init.txt).
 
-* The Hybrid Workers are registered with the Azure Automation service using the new Azure VM Extension. The traditional agent installation model required interactive login to the machine, which is not ideal.
+* The Hybrid Workers are registered with the Azure Automation service using the new Azure VM Extension. The traditional agent installation model is set to expire in later 2024/2025.
   * The extension takes one argument - the Hybrid Service Url - which is a property of the Automation Account.
   * The new extension allows the machine to be registered with the Azure Automation service without any interaction with the actual virtual machines. 
   * Please see [Azure Automation Hybrid Worker Extension](https://learn.microsoft.com/en-us/azure/automation/automation-hybrid-runbook-worker#benefits-of-extension-based-user-hybrid-workers) for more information around the benefits of the extension model.
-
-* The machines are also registered with Azure Update Manager when an existing Patching schedule is already defined.
-
-* The machines are assigned an Identity and a role assignment is created to allow the Hybrid Worker to access Azure resources. 
+  * The extension is configured to automatically update when new versions are released.
+  * The extensions are deployed with Terraform when the Hybrid Workers is created using the [azurerm_virtual_machine_extension](./infrastructure/runners/worker.tf#L72) resource
 
 * The each deployment creates a unique resource group based on random id. Virtual Machines are given a random id based on the resource group id and another unique id.
 
+* The machines are registered with Azure Update Manager by setting `patch_mode` and `patch_assessment_mode` to `AutomaticByPlatform` in the [azurerm_virtual_machine](./infrastructure/runners/worker.tf#L21) resource.
+
+* The machines are assigned an Managed Identity. Role assignments can be created to this identity to allow the Hybrid Worker to access Azure resources. 
+
 * An Expiration tags is defined that will used to destory the resources after a certain period of time.
 
-* The Hybrid Workers are intended to be repaved once a week. This demo does so by having Task create a Terraform workspace based on today's date. When executed, Task will create new machiens for the Hybrid Worker Group then clean up any hybrid workers from the previous week.
-
-* Since a Hybrid Worker needs to have many depedencies installed, it is best to create a Golden Image and stored in Shared Image Gallery. 
+* The Hybrid Workers are intended to be short lived and to be destory within a week of creation. Replaced by a new set of workers.
 
 __NOTE:__ As always, this repo is for demostration purposes only. It is not intended for production use as is..
 
@@ -49,6 +49,6 @@ Azure Automation has extensive logging and auditing | Azure Container Apps Jobs 
 # Architecture
 
 ## Examlple Setup
-* The following is a example of [deployment](./docs/setup.md) using [Task](https://taskfile.dev/#/installation) and [Terraform](https://www.terraform.io/downloads.html).
+__NOTE:__ _This [setup](./docs/setup.md) is an example of the architecture below using Taskdev_
 
-![Architecture](.assets/architecture.png)
+  ![Architecture](.assets/architecture.png)

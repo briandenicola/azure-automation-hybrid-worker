@@ -1,5 +1,5 @@
 # Automated Setup with Task
-This example automates the design laid out in the [architecture diagram](../.assets/architecture.png). It will produce the following [Sample environment](../docs/example-environment.md)
+This example automates the design laid out in the [architecture diagram](../.assets/architecture.png). It will create an environment similar to this [Sample Environment](../docs/example-environment.md)
 
 ## Technical Details
 * The environment is built using Task.  Task is a powerful automation tool that allows you to automate tasks in a simple and easy way. 
@@ -16,11 +16,15 @@ This example automates the design laid out in the [architecture diagram](../.ass
     * This is how to ensure that the Hybrid Workers are repaved once a week.  
     * A Tag is set on the Azure Resource Group to track the expiration date of the Hybrid Workers.  It defaults to 7 days.
     * A next time the `task runners` command is executed, it will create a new set of Hybrid Workers and destroy the old ones.
+    * Another job could be created to destroy the old workers based on the expiration tag.
     * The task command reads the Azure Automation Account URL from the output of the `task up` command.
 * The `task down` command will destroy the Azure Automation, Azure Virutal Machines, and the Azure Virtual Network.
 * The Hybrid Workers are Ubuntu Linux with PowerShell installed.
-* An SSH key is automatically generated, passed to the Hybrid Workers, and then removed from the Terraform state file to ensure that no human has interative access to the runners. 
+* The SKU Type of the macines is Standard_B1s - which may be too small for production workloads. 
+    * The variable `vm_sku` in the `runners/variables.tf` file can be changed to a larger size.
+* An SSH key is automatically generated, passed to the Hybrid Workers, and then removed from the terraform state file to ensure that no human has interative access to the runners. 
 * The number of Hybrid Workers created is based on the VM_COUNT variable in the Taskfile.yaml which is passed to the `number_of_runners` variable in the `runners/variables.tf` file.
+* A simple PowerShell script (../infrastructure/runbook.tf) - which just prints out what machine executed the runbook - is added to the Azure Automation Account to test the Hybrid Workers.
 
 ## Prerequisite 
 * A Linux machine or Windows Subsytem for Linux or Docker for Windows 
