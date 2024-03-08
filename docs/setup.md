@@ -8,15 +8,19 @@ This example automates the design laid out in the [architecture diagram](../.ass
     * The terraform is split up into two components - Core Components and Runners.  
 * The `task up` command will a Terraform workspace named after the desired region and provision Azure Automation and Azure Virtual Network.
 * The `task packer` command will create a Golden Image for the Hybrid Workers.
+    * The Golden Image is versioned by the year then the week of the year. So, the first build of the year 2023 will be 1.23.01, the second week will be version 1.23.02, and so on.
+    * The Golden Image is replicated to all regions where the Hybrid Workers are required. 
+    * The Golden Image is given an expiration date to ensure that it is not used after a certain period of time.Default is 14 days after creation.
+    * The Golden Image has PowerShell installed
 * The `task runners -- {{APP_NAME}}` command will create a Terraform workspace named based on the {{APP_NAME}} and the current date.
     * This is how to ensure that the Hybrid Workers are repaved once a week.  
     * A Tag is set on the Azure Resource Group to track the expiration date of the Hybrid Workers.  It defaults to 7 days.
     * A next time the `task runners` command is executed, it will create a new set of Hybrid Workers and destroy the old ones.
     * The task command reads the Azure Automation Account URL from the output of the `task up` command.
 * The `task down` command will destroy the Azure Automation, Azure Virutal Machines, and the Azure Virtual Network.
-* The runners are Ubuntu Linux with PowerShell installed.
-* An SSH key is automatically generated, passed to the runner, and then removed from the Terraform state file to ensure that no human has interative access to the runners. 
-* The number of runners created is based on the VM_COUNT variable in the Taskfile.yaml which is passed to the `number_of_runners` variable in the `runners/variables.tf` file.
+* The Hybrid Workers are Ubuntu Linux with PowerShell installed.
+* An SSH key is automatically generated, passed to the Hybrid Workers, and then removed from the Terraform state file to ensure that no human has interative access to the runners. 
+* The number of Hybrid Workers created is based on the VM_COUNT variable in the Taskfile.yaml which is passed to the `number_of_runners` variable in the `runners/variables.tf` file.
 
 ## Prerequisite 
 * A Linux machine or Windows Subsytem for Linux or Docker for Windows 

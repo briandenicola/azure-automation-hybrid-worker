@@ -6,6 +6,9 @@
 ## Azure Automation Hybrid Workers Group
   ![Azure-Automation-Hybrid-Runners](../.assets/azure-automation-hybrid-runners.png)
 
+## Shared Image Gallery Template Version
+  ![golden-image-version](../.assets/golden-image-version.png)
+
 ## Azure Automation Hybrid Workers
   ![Azure-Automation-Runners](../.assets/azure-automation-runners.png)
 
