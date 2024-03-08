@@ -51,5 +51,5 @@ Azure Automation has extensive logging and auditing | Azure Container Apps Jobs 
 ## Examlple Setup
 * The following is a example of [deployment](./docs/setup.md) using [Task](https://taskfile.dev/#/installation) and [Terraform](https://www.terraform.io/downloads.html).
 
-![Architecture](.assets/architecture.png =1024x)
+![Architecture](.assets/architecture.png)
 

@@ -1,5 +1,5 @@
 # Automated Setup with Task
-This example automates the design laid out in the [architecture diagram](../.assets/architecture.png). It will produce the following [Sample environment](./docs/example-environment.md)
+This example automates the design laid out in the [architecture diagram](../.assets/architecture.png). It will produce the following [Sample environment](../docs/example-environment.md)
 
 ## Technical Details
 * The environment is built using Task.  Task is a powerful automation tool that allows you to automate tasks in a simple and easy way. 
